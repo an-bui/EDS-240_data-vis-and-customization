@@ -164,7 +164,7 @@ After you've answered 1) and 2) for yourself, **write them down** and **sketch o
 
 ### Visual vocabulary
 
-You have already learned about different types of plots for different types of data: this is the [Visual Vocabulary](https://public.tableau.com/views/VisualVocabulary/VisualVocabulary?:showVizHome=no). You can also use this [flow chart](https://www.data-to-viz.com/). Additionally, you have learned about visual variables (see lecture slides from 26 Jan).
+You have already learned about different types of plots for different types of data: this is the [Visual Vocabulary](https://public.tableau.com/views/VisualVocabulary/VisualVocabulary?:showVizHome=no). You can also use this [flow chart](https://www.data-to-viz.com/) or [directory of data visualizations](https://clauswilke.com/dataviz/directory-of-visualizations.html). Additionally, you have learned about visual variables (see lecture slides from 26 Jan).
 
 ### Mapping activity
 
