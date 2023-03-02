@@ -9,6 +9,8 @@ toc: true
 
 In the spirit of Emily Riederer's [ugliest ggplot ever](https://gist.github.com/emilyriederer/2bf4f67d7e198f8359b61706c82e42ee), we'll play around with `ggplot` code in order to learn how it works. The goal: make the _ugliest_ plot possible.  
 
+The knitted document for today if you get lost is [here](https://an-bui.github.io/EDS-240_data-vis-and-customization/code/ggplot-code_2023-03-02.html).
+
 # 0. set up
 
 ## a. libraries
