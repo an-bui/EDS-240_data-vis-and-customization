@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data visualization and customization using ggplot</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="ggplot-code_2023-03-02_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ggplot-code_2023-03-02_files/libs/quarto-html/quarto.js"></script>
+<script src="ggplot-code_2023-03-02_files/libs/quarto-html/popper.min.js"></script>
+<script src="ggplot-code_2023-03-02_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ggplot-code_2023-03-02_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ggplot-code_2023-03-02_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ggplot-code_2023-03-02_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ggplot-code_2023-03-02_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ggplot-code_2023-03-02_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ggplot-code_2023-03-02_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-were-doing-today" id="toc-what-were-doing-today" class="nav-link active" data-scroll-target="#what-were-doing-today">What we’re doing today</a></li>
+  <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">0. set up</a>
+  <ul class="collapse">
+  <li><a href="#a.-libraries" id="toc-a.-libraries" class="nav-link" data-scroll-target="#a.-libraries">a. libraries</a></li>
+  <li><a href="#b.-palette" id="toc-b.-palette" class="nav-link" data-scroll-target="#b.-palette">b. palette</a></li>
+  </ul></li>
+  <li><a href="#data-adjustment" id="toc-data-adjustment" class="nav-link" data-scroll-target="#data-adjustment">1. data adjustment</a></li>
+  <li><a href="#ggplot-grammar-and-defaults" id="toc-ggplot-grammar-and-defaults" class="nav-link" data-scroll-target="#ggplot-grammar-and-defaults">2. <code>ggplot</code> grammar and defaults</a></li>
+  <li><a href="#customization-using-theme" id="toc-customization-using-theme" class="nav-link" data-scroll-target="#customization-using-theme">3. Customization using <code>theme()</code></a>
+  <ul class="collapse">
+  <li><a href="#manual-selections" id="toc-manual-selections" class="nav-link" data-scroll-target="#manual-selections">Manual selections</a></li>
+  <li><a href="#themes" id="toc-themes" class="nav-link" data-scroll-target="#themes">Themes</a></li>
+  <li><a href="#annotations" id="toc-annotations" class="nav-link" data-scroll-target="#annotations">Annotations</a></li>
+  <li><a href="#labels" id="toc-labels" class="nav-link" data-scroll-target="#labels">Labels</a></li>
+  </ul></li>
+  <li><a href="#adding-images-to-plots" id="toc-adding-images-to-plots" class="nav-link" data-scroll-target="#adding-images-to-plots">4. Adding images to plots</a></li>
+  <li><a href="#multipanel-plots" id="toc-multipanel-plots" class="nav-link" data-scroll-target="#multipanel-plots">5. multipanel plots</a></li>
+  <li><a href="#independent-work-time" id="toc-independent-work-time" class="nav-link" data-scroll-target="#independent-work-time">6. Independent work time</a>
+  <ul class="collapse">
+  <li><a href="#a.-deconstruct-tidy-tuesday-visualizations" id="toc-a.-deconstruct-tidy-tuesday-visualizations" class="nav-link" data-scroll-target="#a.-deconstruct-tidy-tuesday-visualizations">a. deconstruct Tidy Tuesday visualizations</a>
+  <ul class="collapse">
+  <li><a href="#option-1-treemap" id="toc-option-1-treemap" class="nav-link" data-scroll-target="#option-1-treemap">Option 1: Treemap</a></li>
+  <li><a href="#option-2-proportional-stacked" id="toc-option-2-proportional-stacked" class="nav-link" data-scroll-target="#option-2-proportional-stacked">Option 2: Proportional stacked</a></li>
+  <li><a href="#option-3-proportional-symbol" id="toc-option-3-proportional-symbol" class="nav-link" data-scroll-target="#option-3-proportional-symbol">Option 3: Proportional symbol</a></li>
+  <li><a href="#option-4-ordered-horizontal-bar" id="toc-option-4-ordered-horizontal-bar" class="nav-link" data-scroll-target="#option-4-ordered-horizontal-bar">Option 4: Ordered horizontal bar</a></li>
+  <li><a href="#option-5-donut" id="toc-option-5-donut" class="nav-link" data-scroll-target="#option-5-donut">Option 5: Donut</a></li>
+  </ul></li>
+  <li><a href="#b.-edit-visualizations" id="toc-b.-edit-visualizations" class="nav-link" data-scroll-target="#b.-edit-visualizations">b. edit visualizations</a>
+  <ul class="collapse">
+  <li><a href="#visual-vocabulary" id="toc-visual-vocabulary" class="nav-link" data-scroll-target="#visual-vocabulary">Visual vocabulary</a></li>
+  <li><a href="#mapping-activity" id="toc-mapping-activity" class="nav-link" data-scroll-target="#mapping-activity">Mapping activity</a></li>
+  </ul></li>
+  <li><a href="#c.-revise-evaluation-plan-and-digital-mock-ups" id="toc-c.-revise-evaluation-plan-and-digital-mock-ups" class="nav-link" data-scroll-target="#c.-revise-evaluation-plan-and-digital-mock-ups">c.&nbsp;revise evaluation plan and digital mock ups</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data visualization and customization using <code>ggplot</code></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="what-were-doing-today" class="level1">
+<h1>What we’re doing today</h1>
+<p>In the spirit of Emily Riederer’s <a href="https://gist.github.com/emilyriederer/2bf4f67d7e198f8359b61706c82e42ee">ugliest ggplot ever</a>, we’ll play around with <code>ggplot</code> code in order to learn how it works. The goal: make the <em>ugliest</em> plot possible.</p>
+</section>
+<section id="set-up" class="level1">
+<h1>0. set up</h1>
+<section id="a.-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="a.-libraries">a. libraries</h2>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># general use</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># general tidying and visualization: ggplot is loaded by default with tidyverse</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lterdatasampler) <span class="co"># data we're using comes from this package</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate) <span class="co"># working with dates</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co"># folder organization</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># extras</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># arranging plots</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magick) <span class="co"># putting images into ggplots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b.-palette" class="level2">
+<h2 class="anchored" data-anchor-id="b.-palette">b. palette</h2>
+<p>This is to use later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>site_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"BC"</span> <span class="ot">=</span> <span class="st">"#687f47"</span>, <span class="st">"CC"</span> <span class="ot">=</span> <span class="st">"#268e86"</span>, <span class="st">"CT"</span> <span class="ot">=</span> <span class="st">"#373f1f"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"DB"</span> <span class="ot">=</span> <span class="st">"#03010a"</span>, <span class="st">"GTM"</span> <span class="ot">=</span> <span class="st">"#447c49"</span>, <span class="st">"JC"</span> <span class="ot">=</span> <span class="st">"#2e2747"</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"NB"</span> <span class="ot">=</span> <span class="st">"#7f696a"</span>, <span class="st">"NIB"</span> <span class="ot">=</span> <span class="st">"#777a76"</span>, <span class="st">"PIE"</span> <span class="ot">=</span> <span class="st">"#a87445"</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"RC"</span> <span class="ot">=</span> <span class="st">"#aef23a"</span>, <span class="st">"SI"</span> <span class="ot">=</span> <span class="st">"#e05357"</span>, <span class="st">"VCR"</span> <span class="ot">=</span> <span class="st">"#087f0c"</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"ZI"</span> <span class="ot">=</span> <span class="st">"#010201"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="data-adjustment" class="level1">
+<h1>1. data adjustment</h1>
+<p>Today, we’ll use the <a href="https://lter.github.io/lterdatasampler/articles/pie_crab_vignette.html">Plum Island fiddler crab data</a> from <code>lterdatasampler</code> to visualize relationships between latitude and crab size. Read the linked vignette to learn about Bergmann’s rule!</p>
+<p>Just to make things a little more interesting, I’m going to split up the dates into years, months, and days and save that as a new data frame, <code>crab_data</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>crab_data <span class="ot">&lt;-</span> pie_crab <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extracting month from the date column using lubridate::month()</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># also making this a factor (instead of numeric) using as.factor()</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">as.factor</span>(<span class="fu">month</span>(date)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ggplot-grammar-and-defaults" class="level1">
+<h1>2. <code>ggplot</code> grammar and defaults</h1>
+<p><code>ggplot</code> works in layers. The code to make a plot can vary, but always includes:<br>
+1. the <code>ggplot()</code> call: this tells R that you want to use the function <code>ggplot()</code> in <code>ggplot</code> to plot things.<br>
+2. <code>data</code> and <code>aesthetics</code> within that <code>ggplot()</code> call: tells <code>ggplot</code> to use a specific data frame any variables in that data frame that should be represented in the plot (for example, x- and y- axes, colors, shapes)<br>
+3. a <code>geom_()</code>: short for “geometry”, <code>geom_()</code> calls tell <code>ggplot</code> what kind of plot you want to make. Try <code>?geom_</code> in the console to see the different options.</p>
+<p><code>ggplot()</code> takes <code>aes</code>thetics from the data frame, so I’m going to color the points by site and make the shapes represent month. I’m also going to facet the plot by month using <code>facet_wrap()</code>, which is a useful function when you’re trying to see differences between variables in different panels (or you can use <code>facet_grid()</code>, which does essentially the same thing).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>crab_plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> crab_data, <span class="fu">aes</span>(<span class="at">x =</span> latitude, <span class="at">y =</span> size)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># putting the aesthetics in here: color points by site, shape points by month</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> site, <span class="at">shape =</span> month),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              <span class="co"># anything that doesn't have to do with variables (like point size or transparency) goes outside the aesthetics</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># facet by month</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>crab_plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> crab_data, <span class="fu">aes</span>(<span class="at">x =</span> size)) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">fill =</span> site), <span class="at">alpha =</span> <span class="fl">0.2</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>crab_plot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> crab_data, <span class="fu">aes</span>(<span class="at">x =</span> latitude, <span class="at">y =</span> size)) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill =</span> site))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>crab_plot1 <span class="sc">+</span> crab_plot2 <span class="sc">+</span> crab_plot3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggplot-code_2023-03-02_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+</section>
+<section id="customization-using-theme" class="level1">
+<h1>3. Customization using <code>theme()</code></h1>
+<section id="manual-selections" class="level2">
+<h2 class="anchored" data-anchor-id="manual-selections">Manual selections</h2>
+<p>You can adjust the colors, shapes, axis limits, etc. using one of the <code>scale_</code> functions (try <code>?scale_</code> to see the many options).</p>
+</section>
+<section id="themes" class="level2">
+<h2 class="anchored" data-anchor-id="themes">Themes</h2>
+<p>A lot of customization comes from <code>ggplot</code> themes. Theme elements deal with everything else in the plot that <em>doesn’t</em> have to do with the data (e.g.&nbsp;the plot background, grid, etc.). There are a lot of arguments that you can stack up in <code>theme()</code> (try <code>?theme()</code>) to see all of them, but they generally fall into a few categories: 1. axes, 2. legends, 3. panels, 4, plots, 5, strips. There are built-in themes in <code>ggplot</code> that can make your plot look pretty good right away, but playing around with theme elements yourself is a great way of getting the exact plot you want.</p>
+<p>Additionally, every argument takes a function modifying the <em>elements</em>: 1. lines, 2. rectangles (more broadly, shapes), 3. text. See the help pages for these functions (e.g.&nbsp;<code>?element_text()</code>) to figure out what you can alter about each element - there’s a lot!</p>
+</section>
+<section id="annotations" class="level2">
+<h2 class="anchored" data-anchor-id="annotations">Annotations</h2>
+<p>Annotations are useful when you want to point something out on a plot. The function is <code>annotate()</code>, which adds an annotation layer onto your plot.</p>
+</section>
+<section id="labels" class="level2">
+<h2 class="anchored" data-anchor-id="labels">Labels</h2>
+<p>Lastly, you can adjust any text on labels using the <code>labs()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>crab_plot <span class="ot">&lt;-</span> crab_plot1 <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># scaling</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># change point colors and assign each to a site</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> site_palette) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># change the point shapes</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"7"</span> <span class="ot">=</span> <span class="dv">21</span>, <span class="st">"8"</span> <span class="ot">=</span> <span class="dv">18</span>)) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># change the x and y axis limits and breaks</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">29</span>, <span class="dv">45</span>)) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># theme() call</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># panel: everything having to do with the main plotting area</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">'#B5C7F4'</span>, <span class="at">color =</span> <span class="st">'#F761F9'</span>, <span class="at">linewidth =</span> <span class="dv">5</span>),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">"#87Bf18"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"#FF21E1"</span>, <span class="at">linetype =</span> <span class="dv">6</span>),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"#2D65BF"</span>, <span class="at">linetype =</span> <span class="dv">4</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># another theme() call: you don't have to split things up like this </span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># just doing it for ease of demonstration</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plot: anything having to do with the area around the panel</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#98FC6A"</span>),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">30</span>, <span class="at">hjust =</span> <span class="fl">0.25</span>, <span class="at">family =</span> <span class="st">"Helvetica"</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.75</span>, <span class="at">color =</span> <span class="st">"#2A23A3"</span>, <span class="at">family =</span> <span class="st">"Times New Roman"</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">angle =</span> <span class="dv">25</span>, <span class="at">family =</span> <span class="st">"Comic Sans MS"</span>),</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="st">"cm"</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># axes: anything having to do with the x and y axis</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold.italic"</span>, <span class="at">color =</span> <span class="st">"#9254D3"</span>),</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Arial"</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.25</span>),</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"italic"</span>, <span class="at">size =</span> <span class="dv">15</span>),</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># note that axis.text options from above are inherited</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x.bottom =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">180</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># strips: anything having to do with facet titles</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#C9E886"</span>),</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#854EED"</span>, <span class="at">family =</span> <span class="st">"Garamond"</span>, <span class="at">face =</span> <span class="st">"bold"</span>)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># legend: anything having to do with legend</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#DC86E8"</span>), </span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#C2F774"</span>),</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.direction =</span> <span class="st">"horizontal"</span>,</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.justification =</span> <span class="st">"left"</span>,</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"serif"</span>, <span class="at">color =</span> <span class="st">"#B452F9"</span>),</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#30F92C"</span>, <span class="at">family =</span> <span class="st">"mono"</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  <span class="co"># making annotation with "big gap"</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">32</span>, <span class="at">y =</span> <span class="dv">20</span>, <span class="at">label =</span> <span class="st">"big gap"</span>, <span class="at">color =</span> <span class="st">"#CC107D"</span>) <span class="sc">+</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># labs: anything having to do with labels</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Crabs!"</span>,</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"I love crabs"</span>,</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Latitude (low to high)"</span>,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Size (small to big)"</span>,</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Do you love crabs?"</span>,</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"I love colors!"</span>) </span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>crab_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggplot-code_2023-03-02_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="adding-images-to-plots" class="level1">
+<h1>4. Adding images to plots</h1>
+<p>There are many ways of adding images to plots. The package I’ll use is <code>magick</code>. This is a round-about way of getting an image in, but allows you to be flexible with your image types (gifs, etc.). I’ll just save this as an object called <code>crab_image</code> to use later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use magick::image_read() to read in the jpeg</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>crab_image <span class="ot">&lt;-</span> <span class="fu">image_read</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"images"</span>, <span class="st">"peggyo-fiddler-crab.jpeg"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># turn this into a raster</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.raster</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="multipanel-plots" class="level1">
+<h1>5. multipanel plots</h1>
+<p>There are a couple packages you can use to put plots together like panels in a figure. The big ones are <code>patchwork</code> and <code>cowplot</code>. Try each of them out and see what you like, but we’ll be using <code>patchwork</code> today.</p>
+<p>Just to demonstrate how this works, I’m going to make up a histogram of crab sizes. The code is annotated if you’re interested in the customized aesthetics, but they’re not important for this demonstration.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for a histogram, you don't need y in your aesthetic call</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>crab_hist <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(crab_data, <span class="fu">aes</span>(<span class="at">x =</span> size)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># telling ggplot that you want to plot a histogram</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="fu">aes</span>(<span class="at">fill =</span> site)) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># some scaling</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">6.5</span>, <span class="at">to =</span> <span class="fl">24.5</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">45</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"BC"</span> <span class="ot">=</span> <span class="st">"#7D9084"</span>, <span class="st">"CC"</span> <span class="ot">=</span> <span class="st">"#8B9FD9"</span>, <span class="st">"CT"</span> <span class="ot">=</span> <span class="st">"#DDD5D5"</span>, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"DB"</span> <span class="ot">=</span> <span class="st">"#CADDA5"</span>, <span class="st">"GTM"</span> <span class="ot">=</span> <span class="st">"#DF697F"</span>, <span class="st">"JC"</span> <span class="ot">=</span> <span class="st">"#E09E5F"</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"NB"</span> <span class="ot">=</span> <span class="st">"#7F56DB"</span>, <span class="st">"NIB"</span> <span class="ot">=</span> <span class="st">"#D8DF5D"</span>, <span class="st">"PIE"</span> <span class="ot">=</span> <span class="st">"#DC53D3"</span>, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"RC"</span> <span class="ot">=</span> <span class="st">"#84D9DF"</span>, <span class="st">"SI"</span> <span class="ot">=</span> <span class="st">"#D798D1"</span>, <span class="st">"VCR"</span> <span class="ot">=</span> <span class="st">"#77E2A8"</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"ZI"</span> <span class="ot">=</span> <span class="st">"#76E762"</span>)) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># some theme-ing</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">'#B6E45F'</span>, <span class="at">color =</span> <span class="st">'#DABA84'</span>, <span class="at">linewidth =</span> <span class="dv">5</span>),</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"#E16B86"</span>, <span class="at">linetype =</span> <span class="dv">2</span>),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"#B49CD2"</span>, <span class="at">linetype =</span> <span class="dv">3</span>),</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#A0C8E8"</span>),</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#8ADDA8"</span>),</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="st">"cm"</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># some labeling</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Crab sizes (small to big)"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of crabs (few to lots)"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"This is a crab histogram"</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Places"</span>) <span class="sc">+</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># adding the crab image</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_raster</span>(crab_image, <span class="at">xmin =</span> <span class="dv">8</span>, <span class="at">xmax =</span> <span class="dv">10</span>, <span class="at">ymin =</span> <span class="dv">30</span>, <span class="at">ymax =</span> <span class="dv">35</span>) <span class="sc">+</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># annotating the plot with the photographer credit</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">9</span>, <span class="at">y =</span> <span class="dv">29</span>, <span class="at">label =</span> <span class="st">"peggyo, iNaturalist"</span>, <span class="at">size =</span> <span class="dv">3</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>crab_hist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggplot-code_2023-03-02_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><code>patchwork</code> thinks similarly to <code>ggplot</code> in that it takes things in layers with <code>+</code> signs, but also takes <code>&amp;</code>. To be honest, I can’t remember the rules most of the time and I have to look them up.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this automatically recognizes that you're putting plots together (no function call!)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>crab_plots_together <span class="ot">&lt;-</span> crab_plot <span class="sc">+</span> crab_hist <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot_layout: anything having to do with the way plots are arranged</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># widths takes a ratio: the panel ratio will be 2:1 left:right</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot_annotation: anything having to do with annotations</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">"A"</span>, <span class="at">tag_suffix =</span> <span class="st">")"</span>) <span class="sc">&amp;</span> <span class="co"># annotating them with panel letters</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># patchwork has its own theme options!</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">40</span>)) <span class="co"># changing the size of the annotations</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># display our beautiful plot  </span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>crab_plots_together</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ggplot-code_2023-03-02_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="1728"></p>
+</div>
+</div>
+</section>
+<section id="independent-work-time" class="level1">
+<h1>6. Independent work time</h1>
+<p>For independent work time, you have a few different options:</p>
+<section id="a.-deconstruct-tidy-tuesday-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="a.-deconstruct-tidy-tuesday-visualizations">a. deconstruct Tidy Tuesday visualizations</h2>
+<p><strong>Goal</strong>: understand how <code>theme</code> options work and/or explore package add-ons to <code>ggplot</code></p>
+<p><strong>Task</strong>: recreate Tidy Tuesday visualizations from week 8 <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-02-21/readme.md">(data on Bob Ross paintings)</a>. Treat this like a puzzle: you know the end result (the image), but all the pieces you have are in disarray (the <code>theme</code> tools). Try working backwards from the output to see if you can recreate the plot.</p>
+<section id="option-1-treemap" class="level3">
+<h3 class="anchored" data-anchor-id="option-1-treemap">Option 1: Treemap</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://raw.githubusercontent.com/amalasi2418/TidyTuesday/main/2023/w08/bob_ross.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Treemap by amalasi2418 on github</figcaption><p></p>
+</figure>
+</div>
+<p>Need some help? Here’s <a href="https://github.com/amalasi2418/TidyTuesday/blob/main/2023/w08/bob_ross.R">the code</a>.</p>
+</section>
+<section id="option-2-proportional-stacked" class="level3">
+<h3 class="anchored" data-anchor-id="option-2-proportional-stacked">Option 2: Proportional stacked</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://raw.githubusercontent.com/AntonioAlegriaH/TidyTuesdayRepository/main/plot-images/2023-02-21-bob-ross-colors.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Area plot by Antonio Alegría</figcaption><p></p>
+</figure>
+</div>
+<p>Need some help? Here’s <a href="https://github.com/AntonioAlegriaH/TidyTuesdayRepository/blob/main/tidy_tuesday_2023-02-21-bob_ross_colors.R">the code</a>.</p>
+</section>
+<section id="option-3-proportional-symbol" class="level3">
+<h3 class="anchored" data-anchor-id="option-3-proportional-symbol">Option 3: Proportional symbol</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://raw.githubusercontent.com/matt-lab/tidytuesday/main/2023/week_08/plot.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Plot by Matt Andreotta</figcaption><p></p>
+</figure>
+</div>
+<p>Need some help? Here’s <a href="https://github.com/matt-lab/tidytuesday/blob/main/2023/week_08/plot.R">the code</a>.</p>
+</section>
+<section id="option-4-ordered-horizontal-bar" class="level3">
+<h3 class="anchored" data-anchor-id="option-4-ordered-horizontal-bar">Option 4: Ordered horizontal bar</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://raw.githubusercontent.com/mvbloois/tidytuesday/main/2023/2023-08/bob-ross-paintings.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Plot by Martijn van Bloois</figcaption><p></p>
+</figure>
+</div>
+<p>Need some help? Here’s <a href="https://github.com/mvbloois/tidytuesday/blob/main/2023/2023-08/bob-ross-paintings.R">the code</a>.</p>
+</section>
+<section id="option-5-donut" class="level3">
+<h3 class="anchored" data-anchor-id="option-5-donut">Option 5: Donut</h3>
+<p><img src="https://raw.githubusercontent.com/RalitzaSoultanova/TidyTuesday2023/main/w8/final_bob_ross_ralitza_soultanova.png" class="img-fluid" alt="Plot by Ralitza Soultanova"> Need some help? Here’s <a href="https://github.com/RalitzaSoultanova/TidyTuesday2023/blob/main/w8/w8_Bob_ross.R">the code</a>.</p>
+</section>
+</section>
+<section id="b.-edit-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="b.-edit-visualizations">b. edit visualizations</h2>
+<p><strong>Goal</strong>: improve visualizations from 1 Mar submissions to <em>convey a message</em> (not just showing the data)</p>
+<p><strong>Task</strong>: revisit the visualizations you submitted and consider two points:<br>
+1) What message am I trying to convey with this figure?<br>
+2) How can I convey that message?<br>
+Sometimes addressing 1) and 2) together mean taking things away (because your figure is too data-dense) or adding things in (because your figure is a map without data on it).</p>
+<p>After you’ve answered 1) and 2) for yourself, <strong>write them down</strong> and <strong>sketch out the plot</strong> you would make to address both points. <strong>Remake your figure</strong> and <strong>ask someone to tell you what the main message is</strong> (without you telling them what you <em>think</em> it is). It’s important that this person <em>is not in your group and doesn’t know the details of your group project.</em></p>
+<section id="visual-vocabulary" class="level3">
+<h3 class="anchored" data-anchor-id="visual-vocabulary">Visual vocabulary</h3>
+<p>You have already learned about different types of plots for different types of data: this is the <a href="https://public.tableau.com/views/VisualVocabulary/VisualVocabulary?:showVizHome=no">Visual Vocabulary</a>. You can also use this <a href="https://www.data-to-viz.com/">flow chart</a>. Additionally, you have learned about visual variables (see lecture slides from 26 Jan).</p>
+</section>
+<section id="mapping-activity" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-activity">Mapping activity</h3>
+<p>If you’re stuck, you can also revisit the <a href="https://docs.google.com/spreadsheets/d/1-RWVs4RqfHJHjvrhBUTuI05iqgVE6RmF_9zAP_Yi-7k/edit">mapping activity</a> we did in class during week 4. With your group mates, you wrote down the kinds of visualizations you wanted to make and the visual variables you would manipulate in each visualization.</p>
+</section>
+</section>
+<section id="c.-revise-evaluation-plan-and-digital-mock-ups" class="level2">
+<h2 class="anchored" data-anchor-id="c.-revise-evaluation-plan-and-digital-mock-ups">c.&nbsp;revise evaluation plan and digital mock ups</h2>
+<p><strong>Goal</strong>: incorporate feedback into a revised evaluation plan</p>
+<p><strong>Task</strong>: meet with your group members and <strong>carefully consider</strong> feedback you have received. As with any feedback: if you agree, incorporate it into your plan; if you disagree, add justification (in text or otherwise) for why you do not need to incorporate that feedback <em>and context</em> for why that feedback doesn’t apply to you.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
