@@ -28,37 +28,9 @@ For independent work time, you have a few different options:
 
 **Goal**: understand how `theme` options work and/or explore package add-ons to `ggplot`  
 
-**Task**: recreate Tidy Tuesday visualizations from week 8 [(data on Bob Ross paintings)](https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-02-21/readme.md). Treat this like a puzzle: you know the end result (the image), but all the pieces you have are in disarray (the `theme` tools). Try working backwards from the output to see if you can recreate the plot.
+**Task**: recreate Tidy Tuesday visualizations from week 8 [(data on Bob Ross paintings)](https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-02-21/readme.md). Treat this like a puzzle: you know the end result (the image), but all the pieces you have are in disarray (the `theme` tools). Try working backwards from the output to see if you can recreate the plot.  
 
-### Option 1: Treemap  
-
-![Treemap by amalasi2418 on github](https://raw.githubusercontent.com/amalasi2418/TidyTuesday/main/2023/w08/bob_ross.png) 
-
-Need some help? Here's [the code](https://github.com/amalasi2418/TidyTuesday/blob/main/2023/w08/bob_ross.R).
-
-### Option 2: Proportional stacked
-
-![Area plot by Antonio Alegría](https://raw.githubusercontent.com/AntonioAlegriaH/TidyTuesdayRepository/main/plot-images/2023-02-21-bob-ross-colors.png)
-
-Need some help? Here's [the code](https://github.com/AntonioAlegriaH/TidyTuesdayRepository/blob/main/tidy_tuesday_2023-02-21-bob_ross_colors.R).  
-
-### Option 3: Proportional symbol
-
-![Plot by Matt Andreotta](https://raw.githubusercontent.com/matt-lab/tidytuesday/main/2023/week_08/plot.png)
-
-Need some help? Here's [the code](https://github.com/matt-lab/tidytuesday/blob/main/2023/week_08/plot.R).
-
-### Option 4: Ordered horizontal bar
-
-![Plot by Martijn van Bloois](https://raw.githubusercontent.com/mvbloois/tidytuesday/main/2023/2023-08/bob-ross-paintings.png)
-
-Need some help? Here's [the code](https://github.com/mvbloois/tidytuesday/blob/main/2023/2023-08/bob-ross-paintings.R).
-
-### Option 5: Donut
-
-![Plot by Ralitza Soultanova](https://raw.githubusercontent.com/RalitzaSoultanova/TidyTuesday2023/main/w8/final_bob_ross_ralitza_soultanova.png)
-
-Need some help? Here's [the code](https://github.com/RalitzaSoultanova/TidyTuesday2023/blob/main/w8/w8_Bob_ross.R).
+See the [document](https://an-bui.github.io/EDS-240_data-vis-and-customization/code/ggplot-code_2023-03-02.html) for visualizations to recreate.
 
 ## b. edit visualizations
 
